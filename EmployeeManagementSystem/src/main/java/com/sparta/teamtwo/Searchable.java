@@ -1,0 +1,15 @@
+package com.sparta.teamtwo;
+
+import java.time.LocalDate;
+import java.util.List;
+
+public interface Searchable {
+    List<EmployeeRecord> getEmployees();
+    List<EmployeeRecord> getEmployees(Integer EmployeeId);
+    List<EmployeeRecord> getEmployees(String lastName);
+    List<EmployeeRecord> getEmployees(LocalDate hiredAfter, LocalDate hiredBefore);
+    List<EmployeeRecord> getEmployees(Integer olderThan, Integer youngerThan);
+
+
+
+}
