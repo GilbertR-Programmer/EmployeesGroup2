@@ -7,4 +7,5 @@ public record EmployeeRecord(String empId,
                              Character gender, String email,
                              LocalDate dateOfBirth, LocalDate joiningDate,
                              Integer salary) {
+
 }
