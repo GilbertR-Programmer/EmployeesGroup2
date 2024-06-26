@@ -30,7 +30,7 @@ public class EmployeeParser {
 
         return null;
     }
-    private static char parseGender(char gender){
+    private static char parseGender(String gender){
 
         return ' ';
     }
