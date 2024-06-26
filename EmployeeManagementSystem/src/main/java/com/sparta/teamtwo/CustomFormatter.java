@@ -14,7 +14,7 @@ public class CustomFormatter extends Formatter {
         DateTimeFormatter myTimeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
 
         return LocalDate.now().format(myDateFormat)
-                + "\u001B[34m"
+                + "\u001B[34m" + "\u001B[42m"
                 + " " + LocalTime.now().format(myTimeFormat)
                 + " in application: " + record.getSourceClassName()
                 + " " + record.getLevel()
