@@ -2,86 +2,130 @@ package com.sparta.teamtwo;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 public class EmployeeParser {
+    private static final Logger LOGGER = Logger.getLogger(EmployeeParser.class.getName());
+
     public static LinkedList<EmployeeRecord> getParsedEmployees(int employeeCount) throws IOException {
         LinkedList<EmployeeRecord> parsedRecords = new LinkedList<>();
         String[] employeeRecStrings = EmployeeFactory.getEmployees(employeeCount);
-
+        int corruptedEntryCounter = 0;
         for (String employeeString : employeeRecStrings) {
-            String[] csvValues = employeeString.split(",");
-            Logger.getLogger(EmployeeParser.class.getName()).warning(Arrays.toString(csvValues));
-
-            parsedRecords.add(new EmployeeRecord(
-                    parseEmpId(csvValues[0]),
-                    parsePrefix(csvValues[1]),
-                    parseFirstName(csvValues[2]),
-                    parseMiddleInitial(csvValues[3]),
-                    parseLastName(csvValues[4]),
-                    parseGender(csvValues[5]),
-                    parseEmail(csvValues[6]),
-                    parseBirthday(csvValues[7]),
-                    parseJoiningDate(csvValues[8]),
-                    parseSalary(csvValues[9])
-            ));
+            Optional<EmployeeRecord> employeeRecord = parseEmployeeRecord(employeeString);
+            if (employeeRecord.isPresent()) {
+                parsedRecords.add(employeeRecord.get());
+            } else {
+                corruptedEntryCounter++;
+            }
         }
 
+        LOGGER.info("Corrupted entries: " + corruptedEntryCounter);
         return parsedRecords;
     }
 
-    private static String parseEmpId(String empId) {
-        String id = empId.replaceAll("[^0-9]", "");
+    private static Optional<EmployeeRecord> parseEmployeeRecord(String employeeString) {
+        if (employeeString == null) return Optional.empty();
 
-        return id.length() == 6 ? id : null;
-        //return null;
+        String[] csvValues = employeeString.split(",");
+        String empId = parseEmpId(csvValues[0]);
+        String prefix = parsePrefix(csvValues[1]);
+        String firstName = parseFirstName(csvValues[2]);
+        Character midInitial = parseMiddleInitial(csvValues[3]);
+        String lastName = parseLastName(csvValues[4]);
+        Character gender = parseGender(csvValues[5]);
+        String email = parseEmail(csvValues[6]);
+        LocalDate birthday = parseBirthday(csvValues[7]);
+        LocalDate joinDate = parseJoiningDate(csvValues[8]);
+        int salary = parseSalary(csvValues[9]);
+
+        if (empId == null
+                || prefix == null
+                || firstName == null
+                || midInitial.equals('¬')
+                || lastName == null
+                || gender.equals('¬')
+                || email == null
+                || birthday == null
+                || joinDate == null
+                || salary < 0) {
+            return Optional.empty();
+        }
+
+        return Optional.of(new EmployeeRecord(empId,
+                prefix,
+                firstName,
+                midInitial,
+                lastName,
+                gender,
+                email,
+                birthday,
+                joinDate,
+                salary
+        ));
     }
 
-    private static String parsePrefix(String prefix) {
+    private static String parseEmpId(String empId) {
+        String parsedId = empId.replaceAll("[^0-9]", "");
 
-        return null;
+        if (parsedId.length() == 6) {
+            return parsedId;
+        } else {
+            LOGGER.warning("Invalid empId " + empId);
+            return null;
+        }
+    }
+
+
+    private static String parsePrefix(String prefix) {
+        if (!prefix.endsWith(".") || prefix.length() < 3 || prefix.length() > 5) {
+            LOGGER.warning("Invalid prefix " + prefix);
+            return null;
+        } else {
+            return prefix;
+        }
     }
 
     private static String parseFirstName(String firstName) {
-
-        return null;
+        return firstName;
     }
 
-    private static String parseMiddleInitial(String midInitial) {
-
-        return null;
+    private static char parseMiddleInitial(String midInitial) {
+        return midInitial.charAt(0);
     }
 
     private static String parseLastName(String lastName) {
-
-        return null;
+        return lastName;
     }
 
     private static char parseGender(String gender) {
-
-        return ' ';
+        return gender.charAt(0);
     }
 
     private static String parseEmail(String email) {
-
-        return null;
+        int firstAtSignIndex = email.indexOf('@');
+        int lastAtSignIndex = email.lastIndexOf('@');
+        int periodIndex = email.lastIndexOf('.');
+        if (lastAtSignIndex < periodIndex && firstAtSignIndex == lastAtSignIndex){
+            return email;
+        }
+        else{
+            LOGGER.warning("Invalid email " + email);
+            return null;
+        }
     }
 
     private static LocalDate parseBirthday(String birthday) {
-
-        return null;
+        return LocalDate.MAX;
     }
 
     private static LocalDate parseJoiningDate(String joinDate) {
-
-        return null;
-
+        return LocalDate.MAX;
     }
 
     private static int parseSalary(String salary) {
-
         return 0;
     }
 }
