@@ -33,8 +33,10 @@ public class EmployeeParser {
     }
 
     private static String parseEmpId(String empId) {
+        String id = empId.replaceAll("[^0-9]", "");
 
-        return null;
+        return id.length() == 6 ? id : null;
+        //return null;
     }
 
     private static String parsePrefix(String prefix) {
