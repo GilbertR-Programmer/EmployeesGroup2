@@ -14,13 +14,14 @@ public class EmployeeAccessObject implements Searchable {
 
     @Override
     public List<EmployeeRecord> getEmployees() {
-        return new LinkedList<>(employeeRecords);
+        return employeeRecords; // I was googling, and it seemed to think I needed to make a copy of this, and not send it directly back?
+//        return new LinkedList<>(employeeRecords);
     }
 
     @Override
-    public EmployeeRecord getEmployee(Integer empId) {
+    public EmployeeRecord getEmployee(String empId) {
         for (EmployeeRecord employee : employeeRecords) {
-            if (employee.empId().equals(empId.toString())) {
+            if (employee.empId().equals(empId)) {
                 return employee;
             }
         }
@@ -39,11 +40,26 @@ public class EmployeeAccessObject implements Searchable {
 
     @Override
     public List<EmployeeRecord> getEmployees(LocalDate hiredAfter, LocalDate hiredBefore) {
-        return List.of();
+        List<EmployeeRecord> result = new LinkedList<>();
+        for (EmployeeRecord employee : employeeRecords) {
+            if (employee.joiningDate().isAfter(hiredAfter) && employee.joiningDate().isBefore(hiredBefore)) {
+                result.add(employee);
+            }
+        }
+        return result;
     }
 
     @Override
     public List<EmployeeRecord> getEmployees(Integer olderThan, Integer youngerThan) {
-        return List.of();
+        List<EmployeeRecord> result = new LinkedList<>();
+        LocalDate now = LocalDate.now();
+        for (EmployeeRecord employee : employeeRecords) {
+            int age = now.getYear() - employee.dateOfBirth().getYear();
+            if (age > olderThan && age < youngerThan) {
+                result.add(employee);
+            }
+        }
+        return result;
     }
+
 }

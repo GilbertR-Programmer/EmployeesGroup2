@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface Searchable {
     List<EmployeeRecord> getEmployees();
-    EmployeeRecord getEmployee(Integer EmployeeId);
+    EmployeeRecord getEmployee(String EmployeeId);
     List<EmployeeRecord> getEmployees(String lastName);
     List<EmployeeRecord> getEmployees(LocalDate hiredAfter, LocalDate hiredBefore);
     List<EmployeeRecord> getEmployees(Integer olderThan, Integer youngerThan);
