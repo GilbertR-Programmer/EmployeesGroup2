@@ -2,12 +2,15 @@ package com.sparta.teamtwo;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.LinkedList;
 import java.util.Optional;
 import java.util.logging.Logger;
 
 public class EmployeeParser {
     private static final Logger LOGGER = Logger.getLogger(EmployeeParser.class.getName());
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("M/d/yyyy");
 
     public static LinkedList<EmployeeRecord> getParsedEmployees(int employeeCount) throws IOException {
         LinkedList<EmployeeRecord> parsedRecords = new LinkedList<>();
@@ -101,7 +104,12 @@ public class EmployeeParser {
     }
 
     private static char parseGender(String gender) {
-        return gender.charAt(0);
+        if(gender.equals("M") || gender.equals("F")){
+            return gender.charAt(0);
+        } else {
+            LOGGER.warning("Invalid gender " + gender);
+            return '-';
+        }
     }
 
     private static String parseEmail(String email) {
@@ -117,15 +125,30 @@ public class EmployeeParser {
         }
     }
 
-    private static LocalDate parseBirthday(String birthday) {
-        return LocalDate.MAX;
+    public static LocalDate parseBirthday(String birthday) {
+        LocalDate parsedDate = null;
+        try {
+            parsedDate = LocalDate.parse(birthday, DATE_FORMATTER);
+        } catch (DateTimeParseException e) {
+            LOGGER.warning("Invalid Date of Birth format: " + birthday);
+        }
+        return parsedDate;
     }
 
-    private static LocalDate parseJoiningDate(String joinDate) {
-        return LocalDate.MAX;
+    public static LocalDate parseJoiningDate(String joinDate) {
+        LocalDate parsedDate = null;
+        try {
+            parsedDate = LocalDate.parse(joinDate, DATE_FORMATTER);
+        } catch (DateTimeParseException e) {
+            LOGGER.warning("Invalid Date of Joining format: " + joinDate);
+        }
+        return parsedDate;
     }
 
     private static int parseSalary(String salary) {
+        if(Integer.parseInt(salary)>0){
+            return Integer.parseInt(salary);
+        } else LOGGER.warning("Invalid Salary: " + Integer.parseInt(salary));
         return 0;
     }
 }
