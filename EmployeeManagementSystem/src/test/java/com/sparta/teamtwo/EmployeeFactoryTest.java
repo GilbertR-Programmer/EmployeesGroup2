@@ -6,7 +6,6 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class EmployeeFactoryTest {
-
     @Test
     public void testGetEmployees() throws IOException {
         String[] employees;
