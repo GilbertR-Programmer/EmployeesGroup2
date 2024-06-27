@@ -1,4 +1,4 @@
-package com.sparta.teamtwo;
+package com.sparta.teamtwo.logging;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -7,26 +7,25 @@ import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 
 public class CustomFormatter extends Formatter {
-    static int index = 0;
+    public static int index = 8;
     @Override
     public String format(LogRecord record) {
-        index++;
-        index++;
-        if (index >= 6){
-            index = 0;
-        }
+        String[] colour = {"\u001B[31m ","\u001B[33m ","\u001B[32m "
+                ,"\u001B[34m ","\u001B[36m ","\u001B[35m ","\u001B[37m ", "\u001B[30m "};
         DateTimeFormatter myDateFormat = DateTimeFormatter.ofPattern("dd MMM");
         DateTimeFormatter myTimeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
-
-        String[] colour = {"\u001B[31m","\u001B[33m","\u001B[32m"
-                ,"\u001B[34m","\u001B[36m","\u001B[35m","\u001B[37m"};
-
-
-        return colour[index] + LocalDate.now().format(myDateFormat)
-                + " " + LocalTime.now().format(myTimeFormat)
-                + " in application: " + record.getSourceClassName()
+        if (index >= (colour.length -2)){
+            index = -1;
+        }
+        index ++;
+        //TODO set as string builder
+        //TODO fix with log files
+        //TODO figure out how to reach end of array
+        return colour[index] + LocalTime.now().format(myTimeFormat)
+                + " " + LocalDate.now().format(myDateFormat)
+                +" in application: " + record.getSourceClassName()
                 + "\n" + colour[index+1] + record.getLevel()
-                + " " + record.getMessage()
+                +" " + record.getMessage()
                 + "\n";
     }
 }
