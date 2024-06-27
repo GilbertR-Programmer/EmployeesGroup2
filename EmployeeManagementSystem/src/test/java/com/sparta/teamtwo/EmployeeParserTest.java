@@ -51,4 +51,120 @@ public class EmployeeParserTest {
         assertNull(parsedId);
     }
 
+    @Test
+    @DisplayName("Test when Parsing Valid Prefix")
+    public void testValidPrefix() {
+        String prefix = "Mr.";
+
+        String parsedPrefix = EmployeeParser.parsePrefix(prefix);
+
+        assertEquals("Mr.", parsedPrefix);
+    }
+
+    @Test
+    @DisplayName("Test when Parsing Invalid Prefix (does not end with '.')")
+    public void testInvalidPrefixNotEndsWithDot() {
+        String prefix = "Mrs";
+
+        String parsedPrefix = EmployeeParser.parsePrefix(prefix);
+
+        assertNull(parsedPrefix);
+    }
+
+    @Test
+    @DisplayName("Test when Parsing Invalid Prefix (length < 3)")
+    public void testInvalidPrefixLengthLessThan3() {
+        String prefix = "Mr";
+
+        String parsedPrefix = EmployeeParser.parsePrefix(prefix);
+
+        assertNull(parsedPrefix);
+    }
+
+    @Test
+    @DisplayName("Test when Parsing Invalid Prefix (length > 5)")
+    public void testInvalidPrefixLengthGreaterThan5() {
+        String prefix = "Ms.abcde";
+
+        String parsedPrefix = EmployeeParser.parsePrefix(prefix);
+
+        assertNull(parsedPrefix);
+    }
+
+    @Test
+    @DisplayName("Test when Parsing valid Gender")
+    public void testValidGender() {
+        String gender = "M";
+
+        char parsedGender = EmployeeParser.parseGender(gender);
+
+        assertEquals('M', parsedGender);
+    }
+
+    @Test
+    @DisplayName("Test when Parsing Invalid Gender")
+    public void testInvalidGender() {
+        String gender = "P";
+
+        char parsedGender = EmployeeParser.parseGender(gender);
+
+        assertEquals('-', parsedGender);
+    }
+
+    @Test
+    @DisplayName("Test when parsing a valid email")
+    public void testValidEmail() {
+        String email = "example@domain.com";
+        assertEquals(email, EmployeeParser.parseEmail(email));
+    }
+
+    @Test
+    @DisplayName("Test when parsing an invalid email")
+    public void testInvalidEmail() {
+        String email = "example@domain@com";
+        assertNull(EmployeeParser.parseEmail(email));
+    }
+
+    @Test
+    @DisplayName("Test when parsing a valid birthday")
+    public void testValidBirthday() {
+        String birthday = "1/1/1990";
+        assertEquals(LocalDate.of(1990, 1, 1), EmployeeParser.parseBirthday(birthday));
+    }
+
+    @Test
+    @DisplayName("Test when parsing an invalid birthday")
+    public void testInvalidBirthday() {
+        String birthday = "1990/01/01";
+        assertNull(EmployeeParser.parseBirthday(birthday));
+    }
+
+    @Test
+    @DisplayName("Test when parsing a valid joining date")
+    public void testValidJoiningDate() {
+        String joinDate = "1/1/2020";
+        assertEquals(LocalDate.of(2020, 1, 1), EmployeeParser.parseJoiningDate(joinDate));
+    }
+
+    @Test
+    @DisplayName("Test when parsing an invalid joining date")
+    public void testInvalidJoiningDate() {
+        String joinDate = "2020-01-01";
+        assertNull(EmployeeParser.parseJoiningDate(joinDate));
+    }
+
+    @Test
+    @DisplayName("Test when parsing a valid salary")
+    public void testValidSalary() {
+        String salary = "50000";
+        assertEquals(50000, EmployeeParser.parseSalary(salary));
+    }
+
+    @Test
+    @DisplayName("Test when parsing an invalid salary")
+    public void testInvalidSalary() {
+        String salary = "-50000";
+        assertEquals(0, EmployeeParser.parseSalary(salary));
+    }
+
 }
