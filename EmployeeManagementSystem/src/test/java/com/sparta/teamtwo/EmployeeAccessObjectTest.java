@@ -4,10 +4,14 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,6 +41,22 @@ class EmployeeAccessObjectTest {
         assertEquals(employeeRecords, result);
     }
 
+    @ParameterizedTest
+    @MethodSource("basicEmployeeData")
+    @DisplayName("")
+    void givenEmployeeListGetEmployeesReturnsWholeList(List<EmployeeRecord> input, List<EmployeeRecord> expectedOutput){
+        //Arrange
+
+        //Act
+
+        //Assert
+
+    }
+
+    static Stream<Arguments> basicEmployeeData() {
+
+        return Stream.of();
+    }
 
 }
 
