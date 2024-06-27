@@ -11,14 +11,15 @@ public class CustomFormatter extends Formatter {
     @Override
     public String format(LogRecord record) {
         index++;
-        if (index >= 7){
+        index++;
+        if (index >= 6){
             index = 0;
         }
         DateTimeFormatter myDateFormat = DateTimeFormatter.ofPattern("dd MMM");
         DateTimeFormatter myTimeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
 
-        String[] colour = {"\u001B[31m","\u001B[32m","\u001B[33m"
-                ,"\u001B[34m","\u001B[35m","\u001B[36m","\u001B[37m"};
+        String[] colour = {"\u001B[31m","\u001B[33m","\u001B[32m"
+                ,"\u001B[34m","\u001B[36m","\u001B[35m","\u001B[37m"};
 
 
         return colour[index] + LocalDate.now().format(myDateFormat)
