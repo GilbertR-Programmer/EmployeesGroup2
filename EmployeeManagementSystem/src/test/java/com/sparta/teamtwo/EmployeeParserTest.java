@@ -32,6 +32,20 @@ public class EmployeeParserTest {
     }
 
     @Test
+    @DisplayName("Test when Parsing Invalid Employee Record")
+    public void testParseInvalidEmployeeRecord() {
+
+        String employeeString = "abc123,Mr.,Tam,A,Parlak,M,tam@gmail.com,1/1/1998,4/4/2024,-80000";
+
+        Optional<EmployeeRecord> optionalEmployee = EmployeeParser.parseEmployeeRecord(employeeString);
+
+        assertFalse(optionalEmployee.isPresent(), "EmployeeRecord should not be present");
+
+        assertEquals(Optional.empty(), optionalEmployee);
+    }
+
+
+    @Test
     @DisplayName("Test when Parsing Valid Employee ID")
     public void testValidEmpId() {
         String empId = "123456";
