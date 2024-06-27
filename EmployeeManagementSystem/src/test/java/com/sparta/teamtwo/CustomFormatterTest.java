@@ -15,7 +15,6 @@ public class CustomFormatterTest {
     @Test
     void testLoggerWorks() {
         setUpLogFINEST();
-        setUpLogINFO();
 
         logger.info("This is also an info message");
         logger.warning("This is a warning message");
