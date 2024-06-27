@@ -19,7 +19,7 @@ public class App {
 
         if (!peeps.isEmpty()) {
             EmployeeManagementSystemGUI gui = new EmployeeManagementSystemGUI(peeps);
-            gui.setupGUI();
+            gui.showGUI();
         }
     }
 }

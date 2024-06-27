@@ -104,7 +104,7 @@ public class EmployeeParser {
     }
 
     private static char parseGender(String gender) {
-        if(gender.equals("M") || gender.equals("F")){
+        if (gender.equals("M") || gender.equals("F")) {
             return gender.charAt(0);
         } else {
             LOGGER.warning("Invalid gender " + gender);
@@ -116,10 +116,9 @@ public class EmployeeParser {
         int firstAtSignIndex = email.indexOf('@');
         int lastAtSignIndex = email.lastIndexOf('@');
         int periodIndex = email.lastIndexOf('.');
-        if (lastAtSignIndex < periodIndex && firstAtSignIndex == lastAtSignIndex){
+        if (lastAtSignIndex < periodIndex && firstAtSignIndex == lastAtSignIndex) {
             return email;
-        }
-        else{
+        } else {
             LOGGER.warning("Invalid email " + email);
             return null;
         }
@@ -146,7 +145,7 @@ public class EmployeeParser {
     }
 
     private static int parseSalary(String salary) {
-        if(Integer.parseInt(salary)>0){
+        if (salary.matches("[0-9]") && (!salary.isEmpty() || Integer.parseInt(salary) > 0)) {
             return Integer.parseInt(salary);
         } else LOGGER.warning("Invalid Salary: " + Integer.parseInt(salary));
         return 0;
