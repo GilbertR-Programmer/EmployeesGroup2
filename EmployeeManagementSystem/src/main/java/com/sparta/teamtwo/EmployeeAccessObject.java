@@ -41,13 +41,13 @@ public class EmployeeAccessObject implements Searchable {
 
     @Override
     public List<EmployeeRecord> getEmployees(LocalDate hiredAfter, LocalDate hiredBefore) {
-        List<EmployeeRecord> result = new LinkedList<>();
+        List<EmployeeRecord> foundEmployees = new LinkedList<>();
         for (EmployeeRecord employee : employeeRecords) {
             if (employee.joiningDate().isAfter(hiredAfter) && employee.joiningDate().isBefore(hiredBefore)) {
-                result.add(employee);
+                foundEmployees.add(employee);
             }
         }
-        return result;
+        return foundEmployees;
     }
 
     @Override
