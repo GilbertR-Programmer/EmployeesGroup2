@@ -84,7 +84,7 @@ public class EmployeeParser {
 
     private static String parsePrefix(String prefix) {
         if (!prefix.endsWith(".") || prefix.length() < 3 || prefix.length() > 5) {
-            LOGGER.warning("Invalid prefix " + prefix);
+            LOGGER.warning("Invalid prefix: " + prefix);
             return null;
         } else {
             return prefix;
@@ -92,23 +92,26 @@ public class EmployeeParser {
     }
 
     private static String parseFirstName(String firstName) {
-        return firstName;
+        if(!firstName.isEmpty()) return firstName;
+        else return null;
     }
 
     private static char parseMiddleInitial(String midInitial) {
-        return midInitial.charAt(0);
+        if(!midInitial.isEmpty()) return midInitial.charAt(0);
+        else return '¬';
     }
 
     private static String parseLastName(String lastName) {
-        return lastName;
+        if(!lastName.isEmpty()) return lastName;
+        else return null;
     }
 
     private static char parseGender(String gender) {
         if (gender.equals("M") || gender.equals("F")) {
             return gender.charAt(0);
         } else {
-            LOGGER.warning("Invalid gender " + gender);
-            return '-';
+            LOGGER.warning("Invalid gender: " + gender);
+            return '¬';
         }
     }
 
@@ -119,7 +122,7 @@ public class EmployeeParser {
         if (lastAtSignIndex < periodIndex && firstAtSignIndex == lastAtSignIndex) {
             return email;
         } else {
-            LOGGER.warning("Invalid email " + email);
+            LOGGER.warning("Invalid email: " + email);
             return null;
         }
     }
@@ -145,9 +148,9 @@ public class EmployeeParser {
     }
 
     private static int parseSalary(String salary) {
-        if (salary.matches("[0-9]") && (!salary.isEmpty() || Integer.parseInt(salary) > 0)) {
+        if (salary.matches("\\d+") && (!salary.isEmpty() || Integer.parseInt(salary) > 0)) {
             return Integer.parseInt(salary);
-        } else LOGGER.warning("Invalid Salary: " + Integer.parseInt(salary));
-        return 0;
+        } else LOGGER.warning("Invalid Salary: " + salary);
+        return -1;
     }
 }
