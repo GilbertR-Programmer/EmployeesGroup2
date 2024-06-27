@@ -13,7 +13,7 @@ import static com.sparta.teamtwo.logging.LoggerInitialiser.*;
 public class CustomFormatterTest {
 
     @Test
-    void testDadReturnsTrue() {
+    void testLoggerWorks() {
         setUpLogFINEST();
         setUpLogINFO();
 

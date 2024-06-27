@@ -29,7 +29,7 @@ class EmployeeAccessObjectTest {
                         LocalDate.of(1985, 5, 15), LocalDate.of(2010, 7, 1), 60000),
                 new EmployeeRecord("E002", "Ms", "Jane", "A", "Smith", 'F', "jane.smith@example.com",
                         LocalDate.of(1990, 8, 20), LocalDate.of(2015, 3, 10), 75000),
-                new EmployeeRecord("E003", "Dr", "Michael", "J", "Johnson", 'M',
+                new EmployeeRecord("E003", "Dr", "Michael", 'J', "Johnson", 'M',
                         "michael.johnson@example.com", LocalDate.of(1982, 12, 10), LocalDate.of(2008, 10, 5), 80000)
         );
         employeeAccessObject = new EmployeeAccessObject(employeeRecords);
