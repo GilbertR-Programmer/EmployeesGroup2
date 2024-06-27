@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 public class LoggerInitialiser {
 
     //public static final Logger logger = Logger.getLogger(App.class.getName());
-    public static final Logger logger = Logger.getLogger(new Exception().getStackTrace()[1].getClassName());
+    public static final Logger logger = Logger.getGlobal();
     public static void setUpLogFINEST() {
 
         logger.setUseParentHandlers(false);
