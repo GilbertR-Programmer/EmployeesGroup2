@@ -138,6 +138,34 @@ class EmployeeAccessObjectTest {
         );
     }
 
+    @ParameterizedTest
+    @MethodSource("getEmployeesByAgeData")
+    void testGetEmployeeByAge(int youngestAge, int oldestAge, List<EmployeeRecord> expectedOutput) {
+        //Arrange
+        EmployeeAccessObject accessObject = new EmployeeAccessObject(employeeRecordsAsList);
+        //Act
+        List<EmployeeRecord> actualOutput = accessObject.getEmployees(youngestAge, oldestAge);
+        //Assert
+        assertEquals(expectedOutput,actualOutput);
+    }
+
+    static Stream<Arguments> getEmployeesByAgeData() {
+        return Stream.of(
+                Arguments.of(
+                        17,35,List.of(
+                                new EmployeeRecord("E002", "Ms", "Jane", 'A', "Smith", 'F', "jane.smith@example.com",
+                                        LocalDate.of(1990, 8, 20), LocalDate.of(2010, 3, 10), 75000),
+                                new EmployeeRecord("E003", "Dr", "Michael", 'J', "Johnson", 'M',
+                                        "michael.johnson@example.com", LocalDate.of(2000, 12, 10), LocalDate.of(2008, 10, 5), 80000),
+                                new EmployeeRecord("7H4F", "Mr", "John", 'F', "Kentucky", 'M',
+                                "michael.johnson@example.com", LocalDate.of(1990, 12, 10), LocalDate.of(2008, 8, 5), 80000)
+
+                        )
+                )
+
+        );
+    }
+
 
 
 }
