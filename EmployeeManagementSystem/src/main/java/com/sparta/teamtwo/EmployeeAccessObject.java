@@ -14,8 +14,8 @@ public class EmployeeAccessObject implements Searchable {
 
     @Override
     public List<EmployeeRecord> getEmployees() {
-        return employeeRecords; // I was googling, and it seemed to think I needed to make a copy of this, and not send it directly back?
-//        return new LinkedList<>(employeeRecords);
+        return new LinkedList<>(employeeRecords);
+
     }
 
     @Override
@@ -30,12 +30,13 @@ public class EmployeeAccessObject implements Searchable {
 
     @Override
     public List<EmployeeRecord> getEmployees(String lastName) {
+        LinkedList<EmployeeRecord> foundEmployees = new LinkedList<>();
         for (EmployeeRecord employee : employeeRecords) {
-            if (employee.lastName().equalsIgnoreCase(lastName)) {
-                return employeeRecords;
+            if (employee.lastName().toLowerCase().contains(lastName.toLowerCase())) {
+                foundEmployees.add(employee);
             }
         }
-        return null;
+        return foundEmployees;
     }
 
     @Override
