@@ -1,0 +1,10 @@
+[33m 15:55:15 27 Jun in application: com.sparta.teamtwo.CustomFormatterTest
+[32m INFO This is also an info message
+[35m 15:55:15 27 Jun in application: com.sparta.teamtwo.CustomFormatterTest
+[37m WARNING This is a warning message
+[32m 15:55:15 27 Jun in application: com.sparta.teamtwo.CustomFormatterTest
+[34m FINE We're all fine here thank you
+[36m 15:55:15 27 Jun in application: com.sparta.teamtwo.CustomFormatterTest
+[35m FINE We're all fine here thank you
+[37m 15:55:15 27 Jun in application: com.sparta.teamtwo.CustomFormatterTest
+[30m FINE We're all fine here thank you
