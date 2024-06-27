@@ -92,14 +92,26 @@ public class EmployeeParser {
     }
 
     public static String parseFirstName(String firstName) {
+        if (firstName == null || firstName.isEmpty()) {
+            LOGGER.warning("Invalid first name: " + firstName);
+            return null;
+        }
         return firstName;
     }
 
-    public static char parseMiddleInitial(String midInitial) {
+    public static Character parseMiddleInitial(String midInitial) {
+        if (midInitial == null || midInitial.length() != 1) {
+            LOGGER.warning("Invalid middle initial: " + midInitial);
+            return '¬';  // Using a placeholder character to indicate invalid middle initial
+        }
         return midInitial.charAt(0);
     }
 
     public static String parseLastName(String lastName) {
+        if (lastName == null || lastName.isEmpty()) {
+            LOGGER.warning("Invalid last name: " + lastName);
+            return null;
+        }
         return lastName;
     }
 
