@@ -53,19 +53,7 @@ public class EmployeeManagementSystemGUI {
     }
 
     private void buildDisplayTable(LinkedList<EmployeeRecord> displayList) {
-        String[][] data = new String[displayList.size()][10];
-        for (int i = 0; i < displayList.size(); i++) {
-            data[i][0] = displayList.get(i).empId();
-            data[i][1] = displayList.get(i).prefix();
-            data[i][2] = displayList.get(i).firstName();
-            data[i][3] = displayList.get(i).middleInitial().toString();
-            data[i][4] = displayList.get(i).lastName();
-            data[i][5] = displayList.get(i).gender().toString();
-            data[i][6] = displayList.get(i).email();
-            data[i][7] = displayList.get(i).dateOfBirth().toString();
-            data[i][8] = displayList.get(i).joiningDate().toString();
-            data[i][9] = displayList.get(i).salary().toString();
-        }
+        String[][] data = getDisplayListData(displayList);
 
         DefaultTableModel model = new DefaultTableModel(data, COLUMN_NAMES);
         recordsTable = new JTable(model);
@@ -76,6 +64,11 @@ public class EmployeeManagementSystemGUI {
     private void updateDisplayTable(LinkedList<EmployeeRecord> displayList) {
         if (displayList == null) return;
 
+        String[][] data = getDisplayListData(displayList);
+        ((DefaultTableModel) recordsTable.getModel()).setDataVector(data, COLUMN_NAMES);
+    }
+
+    private static String[][] getDisplayListData(LinkedList<EmployeeRecord> displayList) {
         String[][] data = new String[displayList.size()][10];
         for (int i = 0; i < displayList.size(); i++) {
             data[i][0] = displayList.get(i).empId();
@@ -85,11 +78,11 @@ public class EmployeeManagementSystemGUI {
             data[i][4] = displayList.get(i).lastName();
             data[i][5] = displayList.get(i).gender().toString();
             data[i][6] = displayList.get(i).email();
-            data[i][7] = displayList.get(i).dateOfBirth().toString();
-            data[i][8] = displayList.get(i).joiningDate().toString();
+            data[i][7] = displayList.get(i).dateOfBirth().format(DATE_FORMATTER);
+            data[i][8] = displayList.get(i).joiningDate().format(DATE_FORMATTER);
             data[i][9] = displayList.get(i).salary().toString();
         }
-        ((DefaultTableModel) recordsTable.getModel()).setDataVector(data, COLUMN_NAMES);
+        return data;
     }
 
     private void setupUI() {
