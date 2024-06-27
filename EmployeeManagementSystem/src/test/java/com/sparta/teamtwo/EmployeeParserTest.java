@@ -32,9 +32,23 @@ public class EmployeeParserTest {
     }
 
     @Test
-    @DisplayName("Test when Parsing Valid Employee Record")
-    public void testInvalidEmpId() {
+    @DisplayName("Test when Parsing Valid Employee ID")
+    public void testValidEmpId() {
+        String empId = "123456";
 
+        String parsedId = EmployeeParser.parseEmpId(empId);
+
+        assertEquals("123456", parsedId);
+    }
+
+    @Test
+    @DisplayName("Test when Parsing Invalid Employee ID")
+    public void testInvalidEmpId() {
+        String empId = "asd434123n222";
+
+        String parsedId = EmployeeParser.parseEmpId(empId);
+
+        assertNull(parsedId);
     }
 
 }
