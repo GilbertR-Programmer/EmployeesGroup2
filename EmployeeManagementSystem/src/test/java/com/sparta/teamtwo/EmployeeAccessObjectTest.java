@@ -21,6 +21,7 @@ class EmployeeAccessObjectTest {
 
     @BeforeAll
     @DisplayName("Set of stock employees that can be tested against so they don't have to be remade")
+
     static void setUp() {
         employeeRecordsAsList = new LinkedList<>();
         employeeRecordsAsList.add(new EmployeeRecord("E001", "Mr", "John", 'M', "Doe", 'M', "john.doe@example.com",

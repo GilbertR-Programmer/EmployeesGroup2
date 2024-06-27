@@ -13,9 +13,8 @@ import static com.sparta.teamtwo.logging.LoggerInitialiser.*;
 public class CustomFormatterTest {
 
     @Test
-    void testDadReturnsTrue() {
+    void testLoggerWorks() {
         setUpLogFINEST();
-        setUpLogINFO();
 
         logger.info("This is also an info message");
         logger.warning("This is a warning message");
