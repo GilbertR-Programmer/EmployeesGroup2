@@ -156,7 +156,7 @@ public class EmployeeParser {
         return parsedDate;
     }
 
-    private static int parseSalary(String salary) {
+    public static int parseSalary(String salary) {
         if (salary.matches("\\d+") && (!salary.isEmpty() || Integer.parseInt(salary) > 0)) {
             return Integer.parseInt(salary);
         } else LOGGER.warning("Invalid Salary: " + salary);
