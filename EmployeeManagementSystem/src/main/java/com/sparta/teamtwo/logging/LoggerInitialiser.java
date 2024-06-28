@@ -9,7 +9,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class LoggerInitialiser {
-    public static final Logger logger = Logger.getLogger(App.class.getName());
+
+    //public static final Logger logger = Logger.getLogger(App.class.getName());
+    public static final Logger logger = Logger.getGlobal();
     public static void setUpLogFINEST() {
 
         logger.setUseParentHandlers(false);
@@ -37,7 +39,7 @@ public class LoggerInitialiser {
         infoConsoleHandler.setLevel(Level.INFO);
 
         try {
-            FileHandler fileHandler = new FileHandler("src/main/resources/log-file-info.log",false); //log files should be in the gitignore
+            FileHandler fileHandler = new FileHandler("src/main/resources/log-file-info.log",true); //log files should be in the gitignore
             fileHandler.setLevel(Level.INFO);
             fileHandler.setFormatter(new CustomFormatter());
             logger.addHandler(fileHandler);
