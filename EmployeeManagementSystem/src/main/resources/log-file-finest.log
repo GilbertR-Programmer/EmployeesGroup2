@@ -1,2 +1,6 @@
-[33m 16:25:51 27 Jun in application: com.sparta.teamtwo.App
-[32m INFO Hello
+[33m 11:05:17 28 Jun in application: com.sparta.teamtwo.EmployeeParser
+[32m WARNING Invalid empId 3935948
+[34m 11:05:17 28 Jun in application: com.sparta.teamtwo.EmployeeParser
+[36m INFO Corrupted entries: 1
+[35m 11:05:17 28 Jun in application: com.sparta.teamtwo.App
+[37m INFO 999

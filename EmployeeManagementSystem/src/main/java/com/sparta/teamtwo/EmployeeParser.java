@@ -7,9 +7,10 @@ import java.time.format.DateTimeParseException;
 import java.util.LinkedList;
 import java.util.Optional;
 import java.util.logging.Logger;
+import static com.sparta.teamtwo.logging.LoggerInitialiser.logger;
 
 public class EmployeeParser {
-    private static final Logger LOGGER = Logger.getLogger(EmployeeParser.class.getName());
+    private static final Logger LOGGER = logger;
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("M/d/yyyy");
 
     public static LinkedList<EmployeeRecord> getParsedEmployees(int employeeCount) throws IOException {
@@ -57,7 +58,8 @@ public class EmployeeParser {
             return Optional.empty();
         }
 
-        return Optional.of(new EmployeeRecord(empId,
+        return Optional.of(new EmployeeRecord(
+                empId,
                 prefix,
                 firstName,
                 midInitial,
@@ -71,10 +73,8 @@ public class EmployeeParser {
     }
 
     public static String parseEmpId(String empId) {
-        String parsedId = empId.replaceAll("[^0-9]", "");
-
-        if (parsedId.length() == 6) {
-            return parsedId;
+        if (empId.matches("\\d+") && empId.length() == 6) {
+            return empId;
         } else {
             LOGGER.warning("Invalid empId " + empId);
             return null;
@@ -116,7 +116,7 @@ public class EmployeeParser {
     }
 
     public static char parseGender(String gender) {
-        if(gender.equals("M") || gender.equals("F")){
+        if (gender.equals("M") || gender.equals("F")) {
             return gender.charAt(0);
         } else {
             LOGGER.warning("Invalid gender: " + gender);
@@ -156,7 +156,7 @@ public class EmployeeParser {
         return parsedDate;
     }
 
-    private static int parseSalary(String salary) {
+    public static int parseSalary(String salary) {
         if (salary.matches("\\d+") && (!salary.isEmpty() || Integer.parseInt(salary) > 0)) {
             return Integer.parseInt(salary);
         } else LOGGER.warning("Invalid Salary: " + salary);
