@@ -84,7 +84,7 @@ public class EmployeeParser {
 
     public static String parsePrefix(String prefix) {
         if (!prefix.endsWith(".") || prefix.length() < 3 || prefix.length() > 5) {
-            LOGGER.warning("Invalid prefix " + prefix);
+            LOGGER.warning("Invalid prefix: " + prefix);
             return null;
         } else {
             return prefix;
@@ -119,8 +119,8 @@ public class EmployeeParser {
         if(gender.equals("M") || gender.equals("F")){
             return gender.charAt(0);
         } else {
-            LOGGER.warning("Invalid gender " + gender);
-            return '-';
+            LOGGER.warning("Invalid gender: " + gender);
+            return '¬';
         }
     }
 
@@ -128,11 +128,10 @@ public class EmployeeParser {
         int firstAtSignIndex = email.indexOf('@');
         int lastAtSignIndex = email.lastIndexOf('@');
         int periodIndex = email.lastIndexOf('.');
-        if (lastAtSignIndex < periodIndex && firstAtSignIndex == lastAtSignIndex){
+        if (lastAtSignIndex < periodIndex && firstAtSignIndex == lastAtSignIndex) {
             return email;
-        }
-        else{
-            LOGGER.warning("Invalid email " + email);
+        } else {
+            LOGGER.warning("Invalid email: " + email);
             return null;
         }
     }
@@ -157,10 +156,10 @@ public class EmployeeParser {
         return parsedDate;
     }
 
-    public static int parseSalary(String salary) {
-        if(Integer.parseInt(salary)>0){
+    private static int parseSalary(String salary) {
+        if (salary.matches("\\d+") && (!salary.isEmpty() || Integer.parseInt(salary) > 0)) {
             return Integer.parseInt(salary);
-        } else LOGGER.warning("Invalid Salary: " + Integer.parseInt(salary));
-        return 0;
+        } else LOGGER.warning("Invalid Salary: " + salary);
+        return -1;
     }
 }
