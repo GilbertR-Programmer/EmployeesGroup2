@@ -12,20 +12,19 @@ import static com.sparta.teamtwo.logging.LoggerInitialiser.setUpLogFINEST;
 public class App {
 
     public static void main(String[] args) {
-        LinkedList<EmployeeRecord> peeps;
+        LinkedList<EmployeeRecord> employees;
 
         setUpLogFINEST();
         try {
-            peeps = EmployeeParser.getParsedEmployees(1000);
-            logger.info(Integer.toString(peeps.size()));
-            logger.info("Hello");
+            employees = EmployeeParser.getParsedEmployees(1000);
+            logger.info(Integer.toString(employees.size()));
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        if (!peeps.isEmpty()) {
-            EmployeeManagementSystemGUI gui = new EmployeeManagementSystemGUI(peeps);
+        if (!employees.isEmpty()) {
+            EmployeeManagementSystemGUI gui = new EmployeeManagementSystemGUI(employees);
             gui.showGUI();
         }
     }
