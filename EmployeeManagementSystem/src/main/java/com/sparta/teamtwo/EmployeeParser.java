@@ -57,7 +57,8 @@ public class EmployeeParser {
             return Optional.empty();
         }
 
-        return Optional.of(new EmployeeRecord(empId,
+        return Optional.of(new EmployeeRecord(
+                empId,
                 prefix,
                 firstName,
                 midInitial,
@@ -71,10 +72,8 @@ public class EmployeeParser {
     }
 
     public static String parseEmpId(String empId) {
-        String parsedId = empId.replaceAll("[^0-9]", "");
-
-        if (parsedId.length() == 6) {
-            return parsedId;
+        if (empId.matches("\\d+") && empId.length() == 6) {
+            return empId;
         } else {
             LOGGER.warning("Invalid empId " + empId);
             return null;
@@ -116,7 +115,7 @@ public class EmployeeParser {
     }
 
     public static char parseGender(String gender) {
-        if(gender.equals("M") || gender.equals("F")){
+        if (gender.equals("M") || gender.equals("F")) {
             return gender.charAt(0);
         } else {
             LOGGER.warning("Invalid gender: " + gender);

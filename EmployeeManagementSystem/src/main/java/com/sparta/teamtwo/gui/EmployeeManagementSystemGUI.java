@@ -10,10 +10,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.LinkedList;
 
 public class EmployeeManagementSystemGUI {
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("M/d/yyyy");
+    private static final DateTimeFormatter MDY_DATE_FORMATTER = DateTimeFormatter.ofPattern("M/d/yyyy");
 
     private static final String[] COLUMN_NAMES = {
             "Employee ID",
@@ -78,8 +79,8 @@ public class EmployeeManagementSystemGUI {
             data[i][4] = displayList.get(i).lastName();
             data[i][5] = displayList.get(i).gender().toString();
             data[i][6] = displayList.get(i).email();
-            data[i][7] = displayList.get(i).dateOfBirth().format(DATE_FORMATTER);
-            data[i][8] = displayList.get(i).joiningDate().format(DATE_FORMATTER);
+            data[i][7] = displayList.get(i).dateOfBirth().format(MDY_DATE_FORMATTER);
+            data[i][8] = displayList.get(i).joiningDate().format(MDY_DATE_FORMATTER);
             data[i][9] = displayList.get(i).salary().toString();
         }
         return data;
@@ -133,19 +134,23 @@ public class EmployeeManagementSystemGUI {
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                //TODO: search logic
-
                 String selectedOption = (String) searchSelector.getSelectedItem();
                 assert selectedOption != null;
 
                 String searchText = searchBarField.getText();
                 switch (selectedOption) {
                     case "ID":
-                        if (!searchText.isEmpty()) {
+                        if (searchText.length() == 6) {
                             LinkedList<EmployeeRecord> results = new LinkedList<>();
-                            results.push(employeeAccessObject.getEmployee(searchText));
-                            updateDisplayTable(results);
+                            EmployeeRecord employee = employeeAccessObject.getEmployee(searchText);
+                            if (employee != null) {
+                                results.push(employee);
+                                updateDisplayTable(results);
+                            }else{
+                                showErrorPopup(window, "No employee found with provided ID.");
+                            }
+                        } else {
+                            showErrorPopup(window, "Invalid EmployeeID. Please ensure there are 6 numbers in the ID.");
                         }
                         break;
                     case "Last Name":
@@ -156,17 +161,15 @@ public class EmployeeManagementSystemGUI {
                     case "Start Date":
                         String lowerDateRangeText = lowerRangeField.getText();
                         String upperDateRangeText = upperRangeField.getText();
-                        if (!lowerDateRangeText.isEmpty() && !upperDateRangeText.isEmpty()) {
-                            LocalDate lower = LocalDate.parse(lowerDateRangeText, DATE_FORMATTER);
-                            LocalDate upper = LocalDate.parse(upperDateRangeText, DATE_FORMATTER);
-                            updateDisplayTable((LinkedList<EmployeeRecord>) employeeAccessObject.getEmployees(lower, upper));
-                        }
+                        dateSearch(lowerDateRangeText, upperDateRangeText);
                         break;
                     case "Age":
                         int lowerAgeRange = Integer.parseInt(lowerRangeField.getText());
                         int upperAgeRange = Integer.parseInt(upperRangeField.getText());
                         if (lowerAgeRange >= 0 && upperAgeRange >= 0 && upperAgeRange >= lowerAgeRange) {
                             updateDisplayTable((LinkedList<EmployeeRecord>) employeeAccessObject.getEmployees(lowerAgeRange, upperAgeRange));
+                        } else {
+                            showErrorPopup(window, "Invalid age range. Please ensure that the lower range(left) is greater than or equal to zero, and that upper range(right) is greater than the lower range.");
                         }
                         break;
                     default:
@@ -187,6 +190,33 @@ public class EmployeeManagementSystemGUI {
                 updateDisplayTable((LinkedList<EmployeeRecord>) employeeAccessObject.getEmployees());
             }
         });
+    }
+
+    private void dateSearch(String lowerDateRangeText, String upperDateRangeText) {
+        if (!lowerDateRangeText.isEmpty() && !upperDateRangeText.isEmpty()) {
+            LocalDate lower;
+            LocalDate upper;
+
+            try {
+                lower = LocalDate.parse(lowerDateRangeText, MDY_DATE_FORMATTER);
+                upper = LocalDate.parse(upperDateRangeText, MDY_DATE_FORMATTER);
+                if (lower.isBefore(upper)) {
+                    updateDisplayTable((LinkedList<EmployeeRecord>) employeeAccessObject.getEmployees(lower, upper));
+                } else {
+                    showErrorPopup(window, "Invalid date range. Please ensure that the lower range(left) is before the upper range(right).");
+                }
+            } catch (DateTimeParseException e) {
+                showErrorPopup(window, "Invalid date format used. Please use (mm/dd/yyyY).");
+            }
+        }
+    }
+
+    private static void showErrorPopup(JFrame parentFrame, String errorMessage) {
+        // Show an error popup with the specified message
+        JOptionPane.showMessageDialog(parentFrame,
+                errorMessage,
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
     }
 
     public void showGUI() {
