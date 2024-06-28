@@ -14,8 +14,8 @@ public class EmployeeAccessObject implements Searchable {
 
     @Override
     public List<EmployeeRecord> getEmployees() {
-        return employeeRecords; // I was googling, and it seemed to think I needed to make a copy of this, and not send it directly back?
-//        return new LinkedList<>(employeeRecords);
+        return new LinkedList<>(employeeRecords);
+
     }
 
     @Override
@@ -30,36 +30,37 @@ public class EmployeeAccessObject implements Searchable {
 
     @Override
     public List<EmployeeRecord> getEmployees(String lastName) {
+        LinkedList<EmployeeRecord> foundEmployees = new LinkedList<>();
         for (EmployeeRecord employee : employeeRecords) {
-            if (employee.lastName().equalsIgnoreCase(lastName)) {
-                return employeeRecords;
+            if (employee.lastName().toLowerCase().contains(lastName.toLowerCase())) {
+                foundEmployees.add(employee);
             }
         }
-        return null;
+        return foundEmployees;
     }
 
     @Override
     public List<EmployeeRecord> getEmployees(LocalDate hiredAfter, LocalDate hiredBefore) {
-        List<EmployeeRecord> result = new LinkedList<>();
+        List<EmployeeRecord> foundEmployees = new LinkedList<>();
         for (EmployeeRecord employee : employeeRecords) {
             if (employee.joiningDate().isAfter(hiredAfter) && employee.joiningDate().isBefore(hiredBefore)) {
-                result.add(employee);
+                foundEmployees.add(employee);
             }
         }
-        return result;
+        return foundEmployees;
     }
 
     @Override
     public List<EmployeeRecord> getEmployees(Integer olderThan, Integer youngerThan) {
-        List<EmployeeRecord> result = new LinkedList<>();
-        LocalDate now = LocalDate.now();
+        List<EmployeeRecord> foundEmployees = new LinkedList<>();
+        LocalDate bornBefore = LocalDate.now().minusYears(olderThan);
+        LocalDate bornAfter = LocalDate.now().minusYears(youngerThan);
         for (EmployeeRecord employee : employeeRecords) {
-            int age = now.getYear() - employee.dateOfBirth().getYear();
-            if (age > olderThan && age < youngerThan) {
-                result.add(employee);
+            if (employee.dateOfBirth().isAfter(bornAfter) && employee.dateOfBirth().isBefore(bornBefore)) {
+                foundEmployees.add(employee);
             }
         }
-        return result;
+        return foundEmployees;
     }
 
 }
