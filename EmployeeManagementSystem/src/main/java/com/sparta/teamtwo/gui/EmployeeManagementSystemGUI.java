@@ -146,7 +146,7 @@ public class EmployeeManagementSystemGUI {
                             if (employee != null) {
                                 results.push(employee);
                                 updateDisplayTable(results);
-                            }else{
+                            } else {
                                 showErrorPopup(window, "No employee found with provided ID.");
                             }
                         } else {
@@ -164,12 +164,17 @@ public class EmployeeManagementSystemGUI {
                         dateSearch(lowerDateRangeText, upperDateRangeText);
                         break;
                     case "Age":
-                        int lowerAgeRange = Integer.parseInt(lowerRangeField.getText());
-                        int upperAgeRange = Integer.parseInt(upperRangeField.getText());
-                        if (lowerAgeRange >= 0 && upperAgeRange >= 0 && upperAgeRange >= lowerAgeRange) {
-                            updateDisplayTable((LinkedList<EmployeeRecord>) employeeAccessObject.getEmployees(lowerAgeRange, upperAgeRange));
-                        } else {
-                            showErrorPopup(window, "Invalid age range. Please ensure that the lower range(left) is greater than or equal to zero, and that upper range(right) is greater than the lower range.");
+                        String lowerAgeRangeText = lowerRangeField.getText();
+                        String upperAgeRangeText = upperRangeField.getText();
+
+                        if (!lowerAgeRangeText.isEmpty() && !upperAgeRangeText.isEmpty()) {
+                            int lowerAgeRange = Integer.parseInt(lowerAgeRangeText);
+                            int upperAgeRange = Integer.parseInt(upperAgeRangeText);
+                            if (lowerAgeRange >= 0 && upperAgeRange >= 0 && upperAgeRange >= lowerAgeRange) {
+                                updateDisplayTable((LinkedList<EmployeeRecord>) employeeAccessObject.getEmployees(lowerAgeRange, upperAgeRange));
+                            } else {
+                                showErrorPopup(window, "Invalid age range. Please ensure that the lower range(left) is greater than or equal to zero, and that upper range(right) is greater than the lower range.");
+                            }
                         }
                         break;
                     default:
