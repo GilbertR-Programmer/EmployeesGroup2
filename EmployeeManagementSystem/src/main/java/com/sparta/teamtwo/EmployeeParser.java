@@ -29,7 +29,7 @@ public class EmployeeParser {
         return parsedRecords;
     }
 
-    private static Optional<EmployeeRecord> parseEmployeeRecord(String employeeString) {
+    public static Optional<EmployeeRecord> parseEmployeeRecord(String employeeString) {
         if (employeeString == null) return Optional.empty();
 
         String[] csvValues = employeeString.split(",");
@@ -70,7 +70,7 @@ public class EmployeeParser {
         ));
     }
 
-    private static String parseEmpId(String empId) {
+    public static String parseEmpId(String empId) {
         String parsedId = empId.replaceAll("[^0-9]", "");
 
         if (parsedId.length() == 6) {
@@ -82,7 +82,7 @@ public class EmployeeParser {
     }
 
 
-    private static String parsePrefix(String prefix) {
+    public static String parsePrefix(String prefix) {
         if (!prefix.endsWith(".") || prefix.length() < 3 || prefix.length() > 5) {
             LOGGER.warning("Invalid prefix " + prefix);
             return null;
@@ -91,19 +91,31 @@ public class EmployeeParser {
         }
     }
 
-    private static String parseFirstName(String firstName) {
+    public static String parseFirstName(String firstName) {
+        if (firstName == null || firstName.isEmpty()) {
+            LOGGER.warning("Invalid first name: " + firstName);
+            return null;
+        }
         return firstName;
     }
 
-    private static char parseMiddleInitial(String midInitial) {
+    public static Character parseMiddleInitial(String midInitial) {
+        if (midInitial == null || midInitial.length() != 1) {
+            LOGGER.warning("Invalid middle initial: " + midInitial);
+            return '¬';  // Using a placeholder character to indicate invalid middle initial
+        }
         return midInitial.charAt(0);
     }
 
-    private static String parseLastName(String lastName) {
+    public static String parseLastName(String lastName) {
+        if (lastName == null || lastName.isEmpty()) {
+            LOGGER.warning("Invalid last name: " + lastName);
+            return null;
+        }
         return lastName;
     }
 
-    private static char parseGender(String gender) {
+    public static char parseGender(String gender) {
         if(gender.equals("M") || gender.equals("F")){
             return gender.charAt(0);
         } else {
@@ -112,7 +124,7 @@ public class EmployeeParser {
         }
     }
 
-    private static String parseEmail(String email) {
+    public static String parseEmail(String email) {
         int firstAtSignIndex = email.indexOf('@');
         int lastAtSignIndex = email.lastIndexOf('@');
         int periodIndex = email.lastIndexOf('.');
@@ -145,7 +157,7 @@ public class EmployeeParser {
         return parsedDate;
     }
 
-    private static int parseSalary(String salary) {
+    public static int parseSalary(String salary) {
         if(Integer.parseInt(salary)>0){
             return Integer.parseInt(salary);
         } else LOGGER.warning("Invalid Salary: " + Integer.parseInt(salary));
